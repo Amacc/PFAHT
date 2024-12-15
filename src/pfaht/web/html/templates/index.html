@@ -1,0 +1,44 @@
+{% extends '__layout__.html' %}
+
+{% block content %}
+<!-- Header -->
+<div class="bg-purple-900 text-white p-4 flex items-center justify-between sticky top-0 z-10">
+  <h1 class="text-xl font-bold">{{ app_name }}</h1>
+  <div class="flex items-center space-x-4">
+    <p class="hidden sm:block">Hello, User</p>
+    <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+  </div>
+</div>
+
+<div class="flex flex-1 overflow-hidden">
+  <!-- Sidebar -->
+  {% block sidebar %}
+  <aside class="bg-gray-800 text-white w-64 p-4 overflow-y-auto">
+    <nav>
+      <ul>
+        {% for menu_item in menu %}
+        <li class="mb-2">
+          <a href="{{ menu_item.url }}" class="block p-2 rounded hover:bg-gray-700">
+            {{- menu_item.title -}}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </aside>
+  {% endblock %}
+
+  <!-- Content Area -->
+  <main class="flex-1 p-6 bg-gray-100 overflow-auto">
+    {% block main %}
+    <h2 class="text-2xl font-bold mb-4"></h2>
+    <p>This is where your main content goes.</p>
+    {% endblock %}
+  </main>
+</div>
+
+<!-- footer -->
+<footer class="bg-purple-950 text-white p-4 text-center sticky bottom-0">
+  <p>Footer Content</p>
+</footer>
+{% endblock %}

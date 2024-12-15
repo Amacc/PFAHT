@@ -29,15 +29,32 @@
 
 |
 
-=====
-PFaHT
-=====
+===========
+PFaHT Stack
+===========
+
+    Python
+    Fastapi
+    HTMX
+    Tailwind
+
+The PfaHT stack is my personal stack for building web applications.
+It is a combination of Python, Fastapi, HTMX, and Tailwind.
+The stack is designed to be simple, fast, and easy to use.
+It is perfect for building web applications that require real-time updates and a
+modern look and feel.
 
 
-    Add a short description here!
+Showcase
+========
 
+For this project I wanted to be able to build a simple web application that
+I can use to input devices and run commands on them.
 
-A longer description of your project goes here...
+To keep things simple we will be delaying implementing auth and just focus on
+the core functionality.
+
+For the database we will be using a local SQLite database.
 
 
 .. _pyscaffold-notes:

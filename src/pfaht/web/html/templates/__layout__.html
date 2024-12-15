@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./static/output.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+
+<body class="min-h-screen flex flex-col">
+  {% block content %}
+  <!-- Header -->
+  <div class="bg-purple-900 text-white p-4 flex items-center justify-between">
+    <h1 class="text-xl font-bold">{{ app_name }}</h1>
+    <div class="flex items-center space-x-4">
+      <p class="hidden sm:block">Hello, User</p>
+      <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+    </div>
+  </div>
+
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="bg-gray-800 text-white w-64 p-4">
+      <nav>
+        <ul>
+          {% for menu_item in menu %}
+          <li class="mb-2">
+            <a href="{{ menu_item.url }}" class="block p-2 rounded hover:bg-gray-700">
+              {{- menu_item.title -}}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Content Area -->
+    <main class="flex-1 p-6 bg-gray-100">
+      <h2 class="text-2xl font-bold mb-4">Welcome to the PFaht Stack</h2>
+      <p>This is where your main content goes.</p>
+    </main>
+  </div>
+
+  <!-- footer -->
+  <footer class="bg-purple-950 text-white p-4 text-center">
+    <p>Footer Content</p>
+  </footer>
+  {% endblock %}
+</body>
+
+</html>
