@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "tailwindcss": "^3.4.16"
+  },
+  "dependencies": {
+    "heroicons": "^2.2.0"
   }
 }

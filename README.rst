@@ -35,10 +35,11 @@ PFaHT Stack
 
     Python
     Fastapi
+    Alpine
     HTMX
     Tailwind
 
-The PfaHT stack is my personal stack for building web applications.
+The PFAHT stack is my personal stack for building web applications.
 It is a combination of Python, Fastapi, HTMX, and Tailwind.
 The stack is designed to be simple, fast, and easy to use.
 It is perfect for building web applications that require real-time updates and a

@@ -18,12 +18,25 @@ static_path = Path(__file__).parent / "static"
 print(f"Static Path: {static_path}")
 static = StaticFiles(directory=static_path)
 
+_cached_templates = {}
+def template_exists(template_name: str) -> bool:
+    """Check if a template exists"""
+    if template_name in _cached_templates:
+        return _cached_templates[template_name]
+    try:
+        exists =templates.get_template(template_name) is not None
+    except Exception:
+        exists = False
+    _cached_templates[template_name] = exists
+    return exists
+
 def configure_templates(app: FastAPI):
     #  configure the template environment filters
     templates.env.globals["app_name"] = app.title
     templates.env.globals["app"] = app.version
     templates.env.globals["menu"] = schema.index.Index().links
     templates.env.filters["is_htmx_request"] = lambda x: x.headers.get("HX-Request", None) == "true"
+    templates.env.filters["template_exists"] = template_exists
 
 def content_negotiation():
     """Decorator that will check the Accept header and return the appropriate response]

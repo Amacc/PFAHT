@@ -1,0 +1,16 @@
+{% set template = "index.html" if not (request|is_htmx_request) else "" %}
+{% if template %}
+{% extends template %}
+{% endif %}
+
+{% block main %}
+<h2 class="text-2xl font-bold mb-4">List of Devices</h2>
+
+<div class="space-y-4">
+  {% for device_type in item.response %}
+  <div>
+    {{ device_type }}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

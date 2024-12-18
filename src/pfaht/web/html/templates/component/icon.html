@@ -1,7 +1,11 @@
 <div class="rounded-full w-4 h-4">
   <div class="w-full h-full">
     {% block icon_content %}
+    {% if icon|template_exists %}
     {% include icon|default('heroicons/solid/cog-6-tooth.svg') %}
+    {% else %}
+    <img src="https://dummyimage.com/20" alt="Test">
+    {% endif %}
     {% endblock %}
   </div>
 </div>

@@ -17,10 +17,30 @@ async def list_devices(
     return schema.devices.DeviceListResponse(response=device_list)
 
 @router.get("/{device_id}")
+@html.content_negotiation()
 async def get_device(
+    _request: Request,
     device = Depends(services.devices.get_device)
 ):
     """Get a device by ID"""
+    return schema.devices.DeviceResponse(response=device)
+
+@router.put("/{device_id}")
+@html.content_negotiation()
+async def update_device(
+    _request: Request,
+    device = Depends(services.devices.update_device)
+):
+    """Update a device by ID"""
+    return schema.devices.DeviceResponse(response=device)
+
+@router.delete("/{device_id}")
+@html.content_negotiation()
+async def delete_device(
+    _request: Request,
+    device = Depends(services.devices.delete_device)
+):
+    """Update a device by ID"""
     return schema.devices.DeviceResponse(response=device)
 
 @router.get("/init")
