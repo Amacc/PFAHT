@@ -12,7 +12,7 @@
     crossorigin="anonymous"></script>
 </head>
 
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col" hx-headers='{"Accept":"text/html"}'>
   {% block content %}
   <!-- Header -->
   <div class="bg-purple-900 text-white p-4 flex items-center justify-between">
@@ -27,13 +27,9 @@
     <!-- Sidebar -->
     <aside class="bg-gray-800 text-white w-64 p-4">
       <nav>
-        <ul>
-          {% for menu_item in menu %}
-          <li class="mb-2">
-            <a href="{{ menu_item.url }}" class="block p-2 rounded hover:bg-gray-700">
-              {{- menu_item.title -}}
-            </a>
-          </li>
+        <ul hx-target="main">
+          {% for item_name, menu_item in menu.items() %}
+          {% include 'component/link.html' %}
           {% endfor %}
         </ul>
       </nav>
@@ -44,6 +40,9 @@
       <h2 class="text-2xl font-bold mb-4">Welcome to the PFaht Stack</h2>
       <p>This is where your main content goes.</p>
     </main>
+  </div>
+  <div>
+    <!-- Data lists: Want to include data lists here  -->
   </div>
 
   <!-- footer -->

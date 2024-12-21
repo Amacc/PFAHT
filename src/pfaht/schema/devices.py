@@ -3,9 +3,9 @@ Schema for devices
 ==================
 """
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
-from . import api, index
+from . import api, index, services
 
 DeviceId = int
 
@@ -38,7 +38,7 @@ class MissingDeviceResponse(api.ApiResponse[None]):
 
 class DeviceListResponse(api.ApiResponse[list[Device]]):
     @property
-    def _title(self):
+    def title(self):
         return "Device List"
 
     @property
@@ -73,7 +73,42 @@ class DeviceCreatedResponse(DeviceResponse):
     message: str = "Device created successfully"
 
 
-class DeviceTypeListResponse(api.ApiResponse[list[str]]):
+class DeviceType(BaseModel):
+    """
+    Device Type Schema
+    ==================
+
+    """
+
+    device_type: str
+    links: dict[str, index.Link] = Field(default_factory=dict)
+
+    def model_post_init(self, __context):
+        self.links = {
+            "self": index.Link(
+                url=f"/device-types/{self.device_type}",
+                title=f"{self.device_type}",
+            )
+        }
+
+    @property
+    def _html_template(self):
+        return "device-type/item.html"
+
+
+class DeviceTypeListResponse(api.ApiResponse[list[DeviceType]]):
+    @property
+    def title(self):
+        return "Device Types"
+
     @property
     def _html_template(self):
         return "page/list.html"
+
+
+class DeviceServiceResponse(services.ServiceResponse[Device]):
+    """Device Service Response Schema"""
+
+
+class DeviceListServiceResponse(services.ServiceResponseList[Device]):
+    """Device List Service Response Schema"""

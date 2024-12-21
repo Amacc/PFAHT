@@ -64,7 +64,7 @@ async def list_issues(
 
     Returns:
     --------
-        list[schema.issues.Iddues]: A list of all issues in the database
+        list[schema.issues.Issues]: A list of all issues in the database
     """
     query = "SELECT * FROM issues LIMIT :per_page OFFSET :offset"
     issues = await db.fetch_all(

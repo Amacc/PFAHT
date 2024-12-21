@@ -1,0 +1,9 @@
+<div class="flex flex-row space-x-4">
+  <div>
+    {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
+    {% include 'component/icon.html' %}
+  </div>
+  <div>
+    {{ item.device_type }}
+  </div>
+</div>

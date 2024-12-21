@@ -15,4 +15,4 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from . import logging
+from . import logging, config, db, schema, services, web  # noqa: F401

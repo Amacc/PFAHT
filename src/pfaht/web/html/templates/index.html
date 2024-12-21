@@ -17,13 +17,9 @@
   {% block sidebar %}
   <aside class="bg-gray-800 text-white w-64 p-4 overflow-y-auto">
     <nav>
-      <ul>
-        {% for item_name, menu_item in menu.items() %}
-        <li class="mb-2">
-          <a href="{{ menu_item.url }}" class="block p-2 rounded hover:bg-gray-700">
-            {{- menu_item.title -}}
-          </a>
-        </li>
+      <ul hx-target="main">
+        {% for item_name, link in menu.items() %}
+        {% include 'component/link.html' %}
         {% endfor %}
       </ul>
     </nav>

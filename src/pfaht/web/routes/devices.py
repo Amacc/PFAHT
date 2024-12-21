@@ -8,7 +8,7 @@ logger = getLogger(__name__)
 router = APIRouter(prefix="/devices", tags=["Devices"])
 
 
-@router.get("")
+@router.get("", response_model=schema.devices.DeviceListResponse)
 @html.content_negotiation()
 async def list_devices(
     _request: Request, device_list=Depends(services.devices.list_devices)
@@ -17,14 +17,14 @@ async def list_devices(
     return schema.devices.DeviceListResponse(response=device_list)
 
 
-@router.get("/{device_id}")
+@router.get("/{device_id}", response_model=schema.devices.DeviceResponse)
 @html.content_negotiation()
 async def get_device(_request: Request, device=Depends(services.devices.get_device)):
     """Get a device by ID"""
     return schema.devices.DeviceResponse(response=device)
 
 
-@router.put("/{device_id}")
+@router.put("/{device_id}", response_model=schema.devices.DeviceResponse)
 @html.content_negotiation()
 async def update_device(
     _request: Request, device=Depends(services.devices.update_device)
@@ -33,7 +33,7 @@ async def update_device(
     return schema.devices.DeviceResponse(response=device)
 
 
-@router.delete("/{device_id}")
+@router.delete("/{device_id}", response_model=schema.devices.DeletedDeviceResponse)
 @html.content_negotiation()
 async def delete_device(
     _request: Request,
@@ -53,7 +53,7 @@ async def install_devices_table(
     return {"message": "Device table created"}
 
 
-@router.post("")
+@router.post("", response_model=schema.devices.DeviceCreatedResponse)
 def create_device(
     created_device: schema.devices.NewDevice = Depends(services.devices.create_device),
 ):

@@ -132,4 +132,8 @@ async def list_device_types() -> list[str]:
     from ..web.html import template_path
 
     # for each file in the svgrepo directory, get the name of the file without the extension
-    return [f.stem for f in template_path.glob("svgrepo/*.svg")]
+    device_types = [f.stem for f in template_path.glob("svgrepo/*.svg")]
+    return [
+        schema.devices.DeviceType(device_type=device_type)
+        for device_type in device_types
+    ]
