@@ -1,0 +1,82 @@
+<div id="device-card-{{ item.device_id }}" class="bg-purple-200 p-4 rounded" x-data="{ open: false, isEditing: false }">
+  <div class="max-w-full border-b-2 border-b-purple-500 flex items-center justify-between">
+    <div> <!-- Device type is going to determine profile url -->
+      <div class="flex items-center space-x-4">
+        <div>
+          {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
+          {% include 'component/icon.html' %}
+        </div>
+        <div>
+          {{ item.issue_id }}: {{ item.issue_title|title }}
+        </div>
+      </div>
+    </div>
+    <!-- Button Dropdown -->
+    <div class="relative">
+      <!-- Popover Trigger (Icon Container) -->
+      <div @click="open = !open"
+        class="w-6 h-6 rounded-t flex items-center justify-center cursor-pointer bg-purple-300 hover:bg-purple-400">
+        <div>
+          {% set icon='heroicons/solid/cog-6-tooth.svg' %}
+          {% include 'component/icon-button.html' %}
+        </div>
+        <!-- Popover Content -->
+        <div x-show="open" @click.outside="open = false" x-transition
+          class="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-50 bg-gray-100">
+          <ul class="p-2 space-y-2 text-sm text-gray-700">
+            <li x-show="!isEditing" x-transition>
+              <button class="block px-4 py-2 hover:bg-gray-100 rounded"
+                @click="isEditing = true; open = false">Edit</button>
+            </li>
+            <li> <!--  will add hx-delete later to this -->
+              <div hx-delete="/devices/{{ item.device_id }}" class="block px-4 py-2 hover:bg-gray-100 rounded">
+                Delete
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Form for Device -->
+  <form hx-put="/devices/{{ item.device_id }}" hx-target="#device-card-{{ item.device_id }}" class="mt-4">
+    <div class="flex flex-col space-y-2">
+      <!-- Badges -->
+      <div>
+        {% set badge_content = item.issue_status %}
+        {% include 'component/badge.html' %}
+      </div>
+      <label for="device_name_{{ item.device_id }}" class="text-sm font-medium">Title</label>
+      <input type="text" id="issue_name_{{ item.issue_id }}" name="issue_title" value="{{ item.issue_title }}"
+        :disabled="!isEditing" class="p-2 border border-gray-300 rounded">
+
+      <!-- Status will be implemented later as a badge callback -->
+      <!-- <label for="device_status_{{ item.device_id }}" class="text-sm font-medium">Device Status</label>
+      <input type="text" id="device_status_{{ item.device_id }}" name="device_status"
+        value="{{ item.device_status }}" class="p-2 border border-gray-300 rounded" :disabled="!isEditing"> -->
+
+
+      <label for="issue_body_{{ item.device_id }}" class="text-sm font-medium">Details</label>
+      <input type="text" id="issue_body_{{ item.device_id }}" name="issue_body" value="{{ item.issue_body }}"
+        class="p-2 border border-gray-300 rounded" :disabled="!isEditing">
+
+      <button x-show="isEditing" x-transition type="submit"
+        class="mt-2 p-2 bg-purple-500 text-white rounded hover:bg-purple-600">
+        Update Issue
+      </button>
+      <button x-show="isEditing" x-transition @click="isEditing = !isEditing" type="button"
+        class="mt-2 p-2 bg-purple-700 text-white rounded hover:bg-purple-800">
+        Cancel
+      </button>
+    </div>
+  </form>
+  <!-- Status: {{ item.device_status }}
+  Location: {{ item.device_location }}
+  Description: {{ item.device_description }} -->
+  <div class="flex flex-col">
+    <label for="device_location_{{ item.device_id }}" class="text-sm font-medium">Related Devices</label>
+    <div class="w-full h-full">
+      <img src="https://dummyimage.com/100x40" alt="Issues">
+    </div>
+  </div>
+</div>

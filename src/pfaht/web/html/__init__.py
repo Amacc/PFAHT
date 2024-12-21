@@ -19,29 +19,37 @@ print(f"Static Path: {static_path}")
 static = StaticFiles(directory=static_path)
 
 _cached_templates = {}
+
+
 def template_exists(template_name: str) -> bool:
     """Check if a template exists"""
     if template_name in _cached_templates:
         return _cached_templates[template_name]
     try:
-        exists =templates.get_template(template_name) is not None
+        exists = templates.get_template(template_name) is not None
     except Exception:
         exists = False
     _cached_templates[template_name] = exists
     return exists
+
 
 def configure_templates(app: FastAPI):
     #  configure the template environment filters
     templates.env.globals["app_name"] = app.title
     templates.env.globals["app"] = app.version
     templates.env.globals["menu"] = schema.index.Index().links
-    templates.env.filters["is_htmx_request"] = lambda x: x.headers.get("HX-Request", None) == "true"
+    templates.env.filters["is_htmx_request"] = (
+        lambda x: x.headers.get("HX-Request", None) == "true"
+    )
     templates.env.filters["template_exists"] = template_exists
+
 
 def content_negotiation():
     """Decorator that will check the Accept header and return the appropriate response]
-    
-    Requires that you have the request object as a parameter in the decorated function"""
+
+    Requires that you have the request object as a parameter in the decorated function
+    """
+
     def decorator(f):
         @wraps(f)
         async def wrapper(*args, **kwargs):
@@ -52,18 +60,18 @@ def content_negotiation():
                 response = function_response
 
             # Requires that the request object is passed in as a parameter
-            if not (request:=kwargs.get("_request", kwargs.get("request", None))):
+            if not (request := kwargs.get("_request", kwargs.get("request", None))):
                 logger.info("Skipping HTML Parsing; Request object not found in kwargs")
                 return response
 
             # Check if the request has an Accept header
             logger.info(f"Request Headers: {request.headers}")
-            if not (accept_header:=request.headers.get("Accept", None)):
+            if not (accept_header := request.headers.get("Accept", None)):
                 logger.info("No Accept header found")
                 return response
 
             html_found = False
-            for html_accept in  ["text/html", "application/xhtml+xml"]:
+            for html_accept in ["text/html", "application/xhtml+xml"]:
                 if html_accept in accept_header:
                     html_found = True
                     break
@@ -81,10 +89,13 @@ def content_negotiation():
             if hasattr(response, "_html_template"):
                 logger.info(f"Rendering template: {response._html_template}")
                 return templates.TemplateResponse(
-                    request=request, name=response._html_template, context={"item":response}
+                    request=request,
+                    name=response._html_template,
+                    context={"item": response},
                 )
 
             return response
-        return wrapper
-    return decorator
 
+        return wrapper
+
+    return decorator

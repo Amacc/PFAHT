@@ -1,10 +1,12 @@
-from asyncio import iscoroutine
-from functools import wraps
+"""
+Web Application Entry Point
+===========================
+"""
+
 from logging import getLogger
 
 from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
+
 
 from .. import __version__, dist_name, schema
 from . import html
@@ -19,13 +21,16 @@ app.mount("/static", html.static, name="static")
 install_routes(app)
 html.configure_templates(app)
 
-@app.get("/")
+
+@app.get("/", tags=["Index"])
 @html.content_negotiation()
-def read_root(_request: Request):
+def app_index(_request: Request):
+    """APP Index"""
     return schema.index.Index()
+
 
 if __name__ == "__main__":
     # Launch the FastAPI app using Uvicorn
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
 
+    uvicorn.run(app, host="0.0.0.0", port=8000)

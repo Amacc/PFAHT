@@ -12,5 +12,8 @@
   {% include item._html_template %}
   {% endif %}
   {% endfor %}
+  {% if item.links.next|default() %}
+  <!-- Include a button to load the next page -->
+  {% endif %}
 </div>
 {% endblock %}

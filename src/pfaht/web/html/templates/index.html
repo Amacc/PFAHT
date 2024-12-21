@@ -18,7 +18,7 @@
   <aside class="bg-gray-800 text-white w-64 p-4 overflow-y-auto">
     <nav>
       <ul>
-        {% for menu_item in menu %}
+        {% for item_name, menu_item in menu.items() %}
         <li class="mb-2">
           <a href="{{ menu_item.url }}" class="block p-2 rounded hover:bg-gray-700">
             {{- menu_item.title -}}
