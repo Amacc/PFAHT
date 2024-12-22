@@ -69,6 +69,21 @@ Decisions
     the application with minimal javascript knowledge.
 - Tailwind: A utility-first CSS framework for rapidly building custom designs.
 
+HTMX
+====
+
+Extensions
+----------
+
+So that we can maintain a consistent encoding between our client either using the
+swagger endpoint or the html client we will use json and the `json-enc-custom`
+extension.
+
+hx-ext='json-enc-custom'
+
+Tailwind
+========
+
 Build Process
 -------------
 
@@ -84,6 +99,8 @@ This file is imported in the layout.html file and is used to style the applicati
         -o ./src/pfaht/web/html/static/output.css --watch
 
 .. _pyscaffold-notes:
+
+
 
 Making Changes & Contributing
 =============================
