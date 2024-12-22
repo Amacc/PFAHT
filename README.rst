@@ -79,7 +79,9 @@ So that we can maintain a consistent encoding between our client either using th
 swagger endpoint or the html client we will use json and the `json-enc-custom`
 extension.
 
-hx-ext='json-enc-custom'
+Docs Available at `_json_enc_docs`_.
+
+.. _json_enc_docs: https://github.com/Emtyloc/json-enc-custom/blob/main/README.md
 
 Tailwind
 ========
