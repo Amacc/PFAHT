@@ -85,14 +85,18 @@
       <div class="flex flex-row justify-between">
         <label for="device_location_{{ item.issue_id }}"
           class="text-sm font-medium">Related Devices</label>
-        <div>
+        <button popovertarget="issue-popover-relate-{{ item.issue_id }}">
           {% set icon='heroicons/outline/plus-circle.svg' %}
-          {% include 'component/icon-button.html' %}
-        </div>
+          {% include 'component/icon.html' %}
+        </button>
       </div>
       <div class="w-full h-full">
         <img src="https://dummyimage.com/1000x60" alt="Issues">
       </div>
     </div>
+  </div>
+  <div popover id="issue-popover-relate-{{ item.issue_id }}">
+    Relate Devices
+    <img src="https://dummyimage.com/300x400" alt="{{ item.issue_title }}">
   </div>
 </div>

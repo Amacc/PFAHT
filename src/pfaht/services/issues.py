@@ -37,7 +37,7 @@ async def create_related_devices_table(db: db.Database = Depends(db.get_database
 async def create_issue(
     new_issue: schema.issues.NewIssue,
     db: db.Database = Depends(db.get_database),
-):
+) -> schema.issues.IssueServiceResponse:
     """Create a New Issue
 
     Parameters:
@@ -46,8 +46,7 @@ async def create_issue(
 
     Returns:
     --------
-        schema.devices.Device: The newly created device
-
+        schema.issues.Issue: The newly created device
     """
     query = (
         "INSERT INTO issues (issue_title, issue_body, issue_status) "
@@ -61,14 +60,14 @@ async def create_issue(
 
 
 async def delete_issue(issue_id: int, db: db.Database = Depends(db.get_database)):
-    """Delete a device by ID
+    """Delete an issue by ID
 
     Parameters:
     -----------
         issue_id (int): The ID of the device to delete
         db (db.Database): The database connection
     """
-    query = "DELETE FROM devices WHERE issue_id = :issue_id"
+    query = "DELETE FROM issues WHERE issue_id = :issue_id"
     return await db.execute(query=query, values={"issue_id": issue_id})
 
 

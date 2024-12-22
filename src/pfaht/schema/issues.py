@@ -136,6 +136,12 @@ class IssueResponse(api.ApiResponse[Issue]):
         )
 
 
+class MissingIssuesResponse(api.ApiResponse[None]):
+    """Returned when a requested issue is not found."""
+
+    message: str = "Issue not found"
+
+
 class RelatedDevicesResponse(api.PagedApiResponse[devices.Device]):
     """Related Devices Response Schema"""
 
