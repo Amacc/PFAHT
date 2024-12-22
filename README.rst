@@ -57,6 +57,31 @@ the core functionality.
 
 For the database we will be using a local SQLite database.
 
+Decisions
+=========
+
+- Fastapi: Fastapi is a modern web framework for building APIs with Python 3.6+
+    based on standard Python type hints.
+- HTMX: HTMX allows you to access AJAX, CSS Transitions, WebSockets, and Server
+    Sent Events directly in HTML, using attributes, so you can build modern user
+    interfaces with the simplicity and power of hypertext.
+- Alpine: A minimal framework for giving client side interactions and logic to
+    the application with minimal javascript knowledge.
+- Tailwind: A utility-first CSS framework for rapidly building custom designs.
+
+Build Process
+-------------
+
+Start a process that will watch for changes in your html files defined in the 
+tailwind.config.js file, and when there are changes it will update the output.css file.
+
+This file is imported in the layout.html file and is used to style the application.
+
+.. code-block:: bash
+
+    npx tailwindcss \
+        -i ./src/pfaht/web/html/static/input.css \
+        -o ./src/pfaht/web/html/static/output.css --watch
 
 .. _pyscaffold-notes:
 
