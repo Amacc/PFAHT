@@ -11,9 +11,12 @@
   <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js"
     integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1"
     crossorigin="anonymous"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/Emtyloc/json-enc-custom@main/json-enc-custom.js"></script>
 </head>
 
-<body class="min-h-screen flex flex-col" hx-headers='{"Accept":"text/html"}'>
+<body class="min-h-screen flex flex-col" hx-headers='{"Accept":"text/html"}'
+  hx-ext='json-enc-custom'>
   {% block content %}
   <!-- Header -->
   <div class="bg-purple-900 text-white p-4 flex items-center justify-between">

@@ -33,10 +33,10 @@
                 @click="isEditing = true; open = false">Edit</button>
             </li>
             <li> <!--  will add hx-delete later to this -->
-              <div hx-delete="/issues/{{ item.issue_id }}"
-                class="block px-4 py-2 hover:bg-gray-100 rounded">
+              <button hx-delete="/issues/{{ item.issue_id }}"
+                class="block px-4 py-2 hover:bg-gray-100 rounded w-full">
                 Delete
-              </div>
+              </button>
             </li>
           </ul>
         </div>
@@ -45,7 +45,7 @@
   </div>
   <!-- Form for Issue -->
   <div class="flex flex-col space-y-2">
-    <form id="issue-form-{{ item.issue_id }}" hx-put="/issue/{{ item.issue_id }}"
+    <form id="issue-form-{{ item.issue_id }}" hx-put="/issues/{{ item.issue_id }}"
       hx-target="#device-card-{{ item.issue_id }}" class="mt-4">
       <div class="flex flex-col space-y-2">
         <!-- Badges -->
