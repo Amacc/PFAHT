@@ -85,7 +85,10 @@
       <div class="flex flex-row justify-between">
         <label for="device_location_{{ item.issue_id }}"
           class="text-sm font-medium">Related Devices</label>
-        <div>Relate</div>
+        <div>
+          {% set icon='heroicons/outline/plus-circle.svg' %}
+          {% include 'component/icon-button.html' %}
+        </div>
       </div>
       <div class="w-full h-full">
         <img src="https://dummyimage.com/1000x60" alt="Issues">
