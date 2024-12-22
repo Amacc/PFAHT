@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/x-icon" href="/static/icons/favicon.ico">
   <link href="/static/output.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+    defer></script>
   <script src="https://unpkg.com/htmx.org@2.0.4/dist/htmx.js"
     integrity="sha384-oeUn82QNXPuVkGCkcrInrS1twIxKhkZiFfr2TdiuObZ3n3yIeMiqcRzkIcguaof1"
     crossorigin="anonymous"></script>
@@ -19,7 +20,8 @@
     <h1 class="text-xl font-bold">{{ app_name }}</h1>
     <div class="flex items-center space-x-4">
       <p class="hidden sm:block">Hello, User</p>
-      <img src="https://via.placeholder.com/40" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white">
+      <img src="https://via.placeholder.com/40" alt="Profile"
+        class="w-10 h-10 rounded-full border-2 border-white">
     </div>
   </div>
 
@@ -27,7 +29,7 @@
     <!-- Sidebar -->
     <aside class="bg-gray-800 text-white w-64 p-4">
       <nav>
-        <ul hx-target="main">
+        <ul hx-target="main" hx-replace-url="true">
           {% for item_name, menu_item in menu.items() %}
           {% include 'component/link.html' %}
           {% endfor %}

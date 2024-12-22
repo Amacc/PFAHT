@@ -18,6 +18,22 @@ async def create_issue_table(db: db.Database = Depends(db.get_database)):
     return await db.execute(query=query)
 
 
+async def create_related_devices_table(db: db.Database = Depends(db.get_database)):
+    """Create the related_devices table"""
+    # Need to create a table with a composite primary key with the issue_id and device_id
+    # with each of them being a foreign key to the issues and devices tables respectively
+    query = (
+        "CREATE TABLE IF NOT EXISTS related_devices ("
+        "    issue_id INTEGER NOT NULL,"
+        "    device_id INTEGER NOT NULL,"
+        "    PRIMARY KEY (issue_id, device_id),"
+        "    FOREIGN KEY (issue_id) REFERENCES issues (issue_id),"
+        "    FOREIGN KEY (device_id) REFERENCES devices (device_id)"
+        ")"
+    )
+    return await db.execute(query=query)
+
+
 async def create_issue(
     new_issue: schema.issues.NewIssue,
     db: db.Database = Depends(db.get_database),
@@ -150,3 +166,46 @@ async def list_device_types() -> list[str]:
 
     # for each file in the svgrepo directory, get the name of the file without the extension
     return [f.stem for f in template_path.glob("svgrepo/*.svg")]
+
+
+async def get_related_devices(
+    issue_id: int, db: db.Database = Depends(db.get_database)
+):
+    """Get all devices related to an issue
+
+    Parameters:
+    -----------
+        issue_id (int): The ID of the issue to retrieve related devices for
+
+    Returns:
+    --------
+        list[schema.devices.Device]: A list of all devices related to the issue
+    """
+    query = (
+        "SELECT * FROM devices "
+        "JOIN related_devices ON devices.device_id = related_devices.device_id "
+        "WHERE related_devices.issue_id = :issue_id"
+    )
+    devices = await db.fetch_all(query=query, values={"issue_id": issue_id})
+    return [schema.devices.Device.model_validate(dict(device)) for device in devices]
+
+
+async def relate_device(
+    issue_id: int,
+    device_id: int,
+    db: db.Database = Depends(db.get_database),
+):
+    """Relate a device to an issue
+
+    Parameters:
+    -----------
+        issue_id (int): The ID of the issue to relate the device to
+        device_id (int): The ID of the device to relate to the issue
+    """
+    query = (
+        "INSERT INTO related_devices (issue_id, device_id) "
+        "VALUES (:issue_id, :device_id)"
+    )
+    return await db.execute(
+        query=query, values={"issue_id": issue_id, "device_id": device_id}
+    )

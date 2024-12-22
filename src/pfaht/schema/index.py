@@ -8,13 +8,17 @@ class Link(BaseModel):
     _htmx: bool = True
 
 
+class AnchorLink(Link):
+    _htmx: bool = False
+
+
 class Index(BaseModel):
     _html_template: str = "index.html"
-    links: dict[str, Link] = {
+    links: dict[str, Link | AnchorLink] = {
         "Devices": Link(url="/devices", title="Devices"),
         "Issues": Link(url="/issues/", title="Issues"),
         "Users": Link(url="/users", title="Users"),
-        "Docs": Link(url="/docs", title="API Documentation", _htmx=False),
-        "ReDoc": Link(url="/redoc", title="API Documentation (ReDoc)", _htmx=False),
-        "OpenApiJSON": Link(url="/openapi.json", title="OpenAPI JSON", _htmx=False),
+        "Docs": AnchorLink(url="/docs", title="API Documentation"),
+        "ReDoc": AnchorLink(url="/redoc", title="API Documentation (ReDoc)"),
+        "OpenApiJSON": AnchorLink(url="/openapi.json", title="OpenAPI JSON"),
     }

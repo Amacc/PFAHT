@@ -1,0 +1,14 @@
+<!-- Header Link Popovers -->
+{% set header_links = item._header_links|default({}) %}
+{% if header_links %}
+<div>
+  {% for link_key, link in header_links.items() %}
+  {% if link %}
+  <!-- link popover target -->
+  <div popover id="link-popover-{{ link.title }}">
+    <img src="https://dummyimage.com/300x400" alt="{{ link.title }}">
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% endif %}

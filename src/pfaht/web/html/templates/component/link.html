@@ -1,6 +1,7 @@
 {% if link._htmx|default(true) %}
-<div hx-{{ link.method }}="{{ link.url }}" class="block p-2 rounded hover:bg-gray-700" {% if hx_select|default() %}
-  hx-select="{{ hx_select }}" {% endif %} {% if hx_target|default() %} hx-target="{{ hx_target }}" {% endif %}>
+<div hx-{{ link.method }}="{{ link.url }}" class="block p-2 rounded hover:bg-gray-700"
+  {% if hx_select|default() %} hx-select="{{ hx_select }}" {% endif %} {% if
+  hx_target|default() %} hx-target="{{ hx_target }}" {% endif %}>
   {{- link.title -}}
 </div>
 {% else %}

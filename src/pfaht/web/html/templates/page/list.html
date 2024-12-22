@@ -4,7 +4,14 @@
 {% endif %}
 
 {% block main %}
-<h2 class="text-2xl font-bold mb-4">{{ item.title|default('Item List') }}</h2>
+<h2 class="text-2xl font-bold mb-4 flex flex-row justify-between">
+  <div>
+    {{ item.title|default('Item List') }}
+  </div>
+  <div>
+    {% include 'component/header-links.html' %}
+  </div>
+</h2>
 
 <div class="space-y-4">
   {% for item in item.response %}
@@ -15,5 +22,10 @@
   {% if item.links.next|default() %}
   <!-- Include a button to load the next page -->
   {% endif %}
+</div>
+
+<!-- header link popovers -->
+<div>
+  {% include 'component/header-link-popovers.html' %}
 </div>
 {% endblock %}

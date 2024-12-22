@@ -8,6 +8,15 @@ logger = getLogger(__name__)
 router = APIRouter(prefix="/devices", tags=["Devices"])
 
 
+@router.get("/init")
+async def install_devices_table(
+    install_result=Depends(services.devices.create_device_table),
+):
+    """Initialize the devices table"""
+    logger.debug(f"{install_result=}")
+    return {"message": "Device table created"}
+
+
 @router.get("", response_model=schema.devices.DeviceListResponse)
 @html.content_negotiation()
 async def list_devices(
@@ -42,15 +51,6 @@ async def delete_device(
 ):
     """Update a device by ID"""
     return schema.devices.DeletedDeviceResponse(response=device_id)
-
-
-@router.get("/init")
-async def install_devices_table(
-    install_result=Depends(services.devices.create_device_table),
-):
-    """Initialize the devices table"""
-    logger.debug(f"{install_result=}")
-    return {"message": "Device table created"}
 
 
 @router.post("", response_model=schema.devices.DeviceCreatedResponse)

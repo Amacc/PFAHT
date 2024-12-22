@@ -25,8 +25,7 @@
           class="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-300 rounded-lg shadow-lg z-50 bg-gray-100">
           <ul class="p-2 space-y-2 text-sm text-gray-700">
             <li x-show="!isEditing" x-transition>
-              <button class="block px-4 py-2 hover:bg-gray-100 rounded"
-                @click="isEditing = true; open = false">Edit</button>
+              <div class="block px-4 py-2 hover:bg-gray-100 rounded" @click="isEditing = true; open = false">Edit</div>
             </li>
             <li> <!--  will add hx-delete later to this -->
               <div hx-delete="/devices/{{ item.device_id }}" class="block px-4 py-2 hover:bg-gray-100 rounded">

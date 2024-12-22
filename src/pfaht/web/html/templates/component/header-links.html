@@ -1,0 +1,31 @@
+<!-- Button Dropdown -->
+{% set header_links = item._header_links|default({}) %}
+{% if header_links %}
+<div class="relative" x-data="{ open: false}">
+  <div @click="open = !open" class="
+  w-6 h-6 rounded flex items-center justify-center cursor-pointer
+  hover:bg-purple-400">
+    <div>
+      {% set icon='heroicons/solid/arrow-top-right-on-square.svg' %}
+      {% include 'component/icon-button.html' %}
+    </div>
+    <!-- Popover Content -->
+    <div x-show="open" @click.outside="open = false" x-transition class="
+            absolute top-full right-0 mt-2 w-48 bg-white border
+            border-gray-300 rounded-lg shadow-lg z-50 bg-gray-100">
+      <ul class="p-2 space-y-2 text-sm text-gray-700">
+        <li x-transition>
+          {% for link_key, link in header_links.items() %}
+          {% if link %}
+          <button class="block px-4 py-2 hover:bg-gray-100 rounded w-full"
+            popovertarget="link-popover-{{ link.title }}">
+            {{ link.title }}
+          </button>
+          {% endif %}
+          {% endfor %}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endif %}
