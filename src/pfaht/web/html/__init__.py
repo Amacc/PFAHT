@@ -3,7 +3,7 @@ from functools import wraps
 from pathlib import Path
 from logging import getLogger
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -21,6 +21,11 @@ static = StaticFiles(directory=static_path)
 _cached_templates = {}
 
 
+def camel_to_kebab(string: str) -> str:
+    """Convert a camel case string to kebab case"""
+    return "".join(["-" + c.lower() if c.isupper() else c for c in string]).lstrip("-")
+
+
 def template_exists(template_name: str) -> bool:
     """Check if a template exists"""
     if template_name in _cached_templates:
@@ -33,6 +38,26 @@ def template_exists(template_name: str) -> bool:
     return exists
 
 
+def template_path_from_request(request: Request):
+    """Get the template path from the request"""
+    # template_base_path = request.url.path.lstrip("/")
+    template_base_path = request.url.path.split("/")[1]
+    template_format = request.query_params.get("format", "detail")
+    return f"{template_base_path}/{template_format}.html"
+
+
+def template_path_from_item(item: any, request: Request):
+    """Get the template path based on a request and an item"""
+    if template_path := getattr(item, "_template_path", None):
+        template_base_path = template_path
+    elif plural := getattr(item, "plural", None):
+        template_base_path = plural
+    else:
+        template_base_path = camel_to_kebab(item.__class__.__name__)
+    template_format = request.query_params.get("format", "detail")
+    return f"{template_base_path}/{template_format}.html"
+
+
 def configure_templates(app: FastAPI):
     #  configure the template environment filters
     templates.env.globals["app_name"] = app.title
@@ -42,6 +67,8 @@ def configure_templates(app: FastAPI):
         lambda x: x.headers.get("HX-Request", None) == "true"
     )
     templates.env.filters["template_exists"] = template_exists
+    templates.env.filters["template_path_from_request"] = template_path_from_request
+    templates.env.filters["template_path_from_item"] = template_path_from_item
 
 
 def content_negotiation():

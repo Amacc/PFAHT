@@ -1,1 +1,1 @@
-from . import api, devices, index, issues, location
+from . import api, auth, devices, index, issues, location, users

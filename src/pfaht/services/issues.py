@@ -1,4 +1,5 @@
-from fastapi import Depends
+from fastapi import Depends, Body
+from typing import Annotated
 
 from .. import db, schema
 
@@ -144,11 +145,10 @@ async def update_issue(
         "WHERE issue_id = :issue_id"
     )
     await db.execute(
-        query=query, values={**update_issue.model_dump(), "issue_id": issue_id}
+        query=query, values={**updated_issue.model_dump(), "issue_id": issue_id}
     )
 
-    device = await get_issue(issue_id, db)
-    return device
+    return await get_issue(issue_id, db)
 
 
 async def list_device_types() -> list[str]:
@@ -193,7 +193,7 @@ async def relate_device(
     issue_id: int,
     device_id: int,
     db: db.Database = Depends(db.get_database),
-):
+) -> schema.issues.RelateDeviceResponse:
     """Relate a device to an issue
 
     Parameters:
@@ -205,6 +205,18 @@ async def relate_device(
         "INSERT INTO related_devices (issue_id, device_id) "
         "VALUES (:issue_id, :device_id)"
     )
-    return await db.execute(
+    db_result = await db.execute(
         query=query, values={"issue_id": issue_id, "device_id": device_id}
     )
+    return schema.issues.RelateDeviceResponse(
+        response=[issue_id, device_id],
+        db=db,
+    )
+
+
+async def relate_device_from_schema(
+    related_device: schema.issues.RelatedDevice,
+    issue_id: int,
+    db: db.Database = Depends(db.get_database),
+):
+    return await relate_device(issue_id, related_device.device_id, db=db)

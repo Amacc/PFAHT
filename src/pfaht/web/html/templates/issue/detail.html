@@ -1,5 +1,5 @@
 <div id="device-card-{{ item.issue_id }}" class="bg-purple-200 p-4 rounded"
-  x-data="{ open: false, isEditing: false }">
+  x-data="{ open: false, isEditing: {{ item._is_editing|default(False)|tojson }} }">
   <div
     class="max-w-full border-b-2 border-b-purple-500 flex items-center justify-between">
     <div> <!-- Device type is going to determine profile url -->
@@ -67,6 +67,23 @@
         <input type="text" id="issue_body_{{ item.issue_id }}" name="issue_body"
           value="{{ item.issue_body }}" class="p-2 border border-gray-300 rounded"
           :disabled="!isEditing">
+
+        <!-- will convert to a select later -->
+        <label for="issue_status_{{ item.issue_id }}" class="text-sm font-medium"
+          x-show="isEditing">Status</label>
+        <!-- <input type="text" id="issue_status_{{ item.issue_id }}" name="issue_status"
+          value="{{ item.issue_status }}" class="p-2 border border-gray-300 rounded"
+          :disabled="!isEditing" x-show="isEditing"> -->
+        <div x-show="isEditing">
+          <select name="issue_status" id="issue_status_{{ item.issue_id}}"
+            class="w-full rounded p-2">
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+            <option value="in-progress">In Progress</option>
+            <option value="pending">Pending</option>
+          </select>
+        </div>
+
         <button x-show="isEditing" x-transition type="submit"
           class="mt-2 p-2 bg-purple-500 text-white rounded hover:bg-purple-600">
           Update Issue
@@ -95,8 +112,18 @@
       </div>
     </div>
   </div>
-  <div popover id="issue-popover-relate-{{ item.issue_id }}">
-    Relate Devices
-    <img src="https://dummyimage.com/300x400" alt="{{ item.issue_title }}">
+  <div popover id="issue-popover-relate-{{ item.issue_id }}"
+    hx-get="/devices?format=option" hx-select=".response option"
+    hx-trigger="intersect once"
+    hx-target="#issue-popover-relate-dl-{{ item.issue_id }}">
+    <form>
+      <label for="device_id">Relate Device:</label>
+      <input list="issue-popover-relate-dl-{{ item.issue_id }}" name="device_id" />
+      <button hx-put="/issues/{{ item.issue_id }}/devices/relate">
+        Relate
+      </button>
+    </form>
+    <datalist id="issue-popover-relate-dl-{{ item.issue_id }}">
+    </datalist>
   </div>
 </div>

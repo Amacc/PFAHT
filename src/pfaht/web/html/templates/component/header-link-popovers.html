@@ -6,7 +6,9 @@
   {% if link %}
   <!-- link popover target -->
   <div popover id="link-popover-{{ link.title }}">
-    <img src="https://dummyimage.com/300x400" alt="{{ link.title }}">
+    <span>{{ link.title }}</span>
+    <img src="https://dummyimage.com/300x400&text=Loading..." alt="{{ link.title }}">
+    <span>{{ link.url }}</span>
   </div>
   {% endif %}
   {% endfor %}

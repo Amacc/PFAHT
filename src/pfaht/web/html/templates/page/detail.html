@@ -6,10 +6,17 @@
 {% block main %}
 <h2 class="text-2xl font-bold mb-4">{{ item.response.__class__.__name__|title }}</h2>
 
-<div class="space-y-4">
+<div class="space-y-4 detail-response response">
   {% with item = item.response %}
   {% if item._html_template %}
   {% include item._html_template %}
+  {% else %}
+  {% set template_path = item|template_path_from_item(request) %}
+  {% if template_path | template_exists %}
+  {% include template_path %}
+  {% else %}
+  Missing Template: {{ template_path }}
+  {% endif %}
   {% endif %}
   {% endwith %}
 </div>

@@ -13,15 +13,22 @@
   </div>
 </h2>
 
-<div class="space-y-4">
-  {% for item in item.response %}
-  {% if item._html_template %}
+<div class="space-y-4 list-response response">
+  {%- for item in item.response %}
+  {%- if item._html_template %}
   {% include item._html_template %}
-  {% endif %}
-  {% endfor %}
-  {% if item.links.next|default() %}
+  {%- else %}
+  {%- set template_path = item|template_path_from_item(request) %}
+  {%- if template_path | template_exists %}
+  {% include template_path %}
+  {%- else %}
+  Missing Template: {{ template_path }}
+  {%- endif %}
+  {%- endif %}
+  {%- endfor %}
+  {%- if item.links.next|default() %}
   <!-- Include a button to load the next page -->
-  {% endif %}
+  {%- endif %}
 </div>
 
 <!-- header link popovers -->

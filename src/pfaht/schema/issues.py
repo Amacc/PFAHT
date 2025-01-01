@@ -20,7 +20,6 @@ class IssueTableCreatedResponse(api.ApiResponse[None]):
 
 class DeletedIssueResponse(api.ApiResponse[int]):
     message: str = "Issue Deleted"
-
     links: dict[str, index.Link] = {
         "Issues": index.Link(url="/issues", title="List Issues")
     }
@@ -31,7 +30,7 @@ class IssueStatus(StrEnum):
 
     OPEN = "open"
     CLOSED = "closed"
-    IN_PROGRESS = "in_progress"
+    IN_PROGRESS = "in-progress"
     PENDING = "pending"
 
 
@@ -46,6 +45,19 @@ class NewIssue(BaseModel):
     issue_status: IssueStatus
 
 
+class DefaultIssue(NewIssue):
+    """A default issue for the form."""
+
+    issue_title: str = "New Issue"
+    issue_body: str = "Please enter a description of the issue."
+    issue_status: IssueStatus = IssueStatus.OPEN
+
+    @property
+    def _is_editing(self):
+        """When returned as html this will set the alpine data context."""
+        return True
+
+
 class Issue(NewIssue):
     """
     Issue Schema
@@ -55,8 +67,9 @@ class Issue(NewIssue):
     issue_id: int
 
     @property
-    def _html_template(self):
-        return "issue/item.html"
+    def _is_editing(self):
+        """When returned as html this will set the alpine data context."""
+        return False
 
     def __str__(self):
         return self.issue_title
@@ -109,6 +122,20 @@ class IssueListResponse(api.PagedApiResponse[Issue]):
         self.links.update(
             Add=index.Link(url="/issues/", title="New Issue", method="POST")
         )
+
+
+class DefaultIssueResponse(api.ApiResponse[DefaultIssue]):
+    """Issue Response Schema"""
+
+    message: str = "Issue Details"
+
+    links: dict[str, index.Link] = {
+        "Issues": index.Link(url="/issues", title="Issues List")
+    }
+
+    @property
+    def _html_template(self):
+        return "page/detail.html"
 
 
 class IssueResponse(api.ApiResponse[Issue]):
@@ -164,6 +191,18 @@ class RelatedDevicesResponse(api.PagedApiResponse[devices.Device]):
 
 class IssueServiceResponse(services.ServiceResponse[Issue]):
     """Issue Service Response Schema"""
+
+
+class RelateIssueServiceResponse(
+    services.ServiceResponse[tuple[IssueId, devices.DeviceId]]
+):
+    """"""
+
+
+class RelatedDevice(BaseModel):
+    """Related Device Schema"""
+
+    device_id: int
 
 
 class IssueListServiceResponse(services.ServiceResponseList[Issue]):

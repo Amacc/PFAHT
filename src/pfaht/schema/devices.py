@@ -23,9 +23,6 @@ class NewDevice(BaseModel):
 
 
 class Device(NewDevice):
-    @property
-    def _html_template(self):
-        return "device/item.html"
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -90,10 +87,6 @@ class DeviceType(BaseModel):
                 title=f"{self.device_type}",
             )
         }
-
-    @property
-    def _html_template(self):
-        return "device-type/item.html"
 
 
 class DeviceTypeListResponse(api.ApiResponse[list[DeviceType]]):

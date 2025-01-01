@@ -1,5 +1,6 @@
 from logging import getLogger
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Form, Body
+from typing import Annotated
 
 from ... import schema, services
 from .. import html
@@ -17,6 +18,17 @@ async def init_issues_tables(
     logger.debug(f"{issues_table=}; {related_devices_table=}")
 
     return schema.issues.IssueTableCreatedResponse()
+
+
+@router.get("/new")
+@html.content_negotiation()
+async def new_issue(_request: Request):
+    """Get a valid new issue"""
+    # return schema.issues.DefaultIssue()
+    # return schema.api.ApiResponse(
+    return schema.issues.DefaultIssueResponse(
+        response=schema.issues.DefaultIssue(),
+    )
 
 
 @router.get("", response_model=schema.issues.IssueListResponse)
@@ -47,10 +59,10 @@ async def get_issue(
 @html.content_negotiation()
 async def update_issue(
     _request: Request,
-    issue=Depends(services.issues.update_issue),
+    issue: schema.issues.IssueServiceResponse = Depends(services.issues.update_issue),
 ) -> schema.issues.IssueResponse:
     """Update a issue by ID"""
-    return schema.issues.IssueResponse(response=issue)
+    return schema.issues.IssueResponse(response=issue.data)
 
 
 @router.delete("/{issue_id}", response_model=schema.issues.DeletedIssueResponse)
@@ -89,15 +101,30 @@ def get_related_devices(
 
 
 @router.put(
-    "/{issue_id}/devices/{device_id}",
+    "/{issue_id}/devices/relate/{device_id}",
     response_model=schema.issues.RelateDeviceResponse,
 )
 @html.content_negotiation()
 def relate_device(
     _request: Request,
-    issue_id: int,
-    device_id: int,
-    related_device=Depends(services.issues.relate_device),
+    related_device: schema.issues.RelateDeviceResponse = Depends(
+        services.issues.relate_device
+    ),
 ):
     """Relate a device to an issue"""
-    return schema.issues.RelateDeviceResponse(response=[issue_id, device_id])
+    return schema.issues.RelateDeviceResponse(response=related_device.response)
+
+
+@router.put(
+    "/{issue_id}/devices/relate",
+    response_model=schema.issues.RelateDeviceResponse,
+)
+@html.content_negotiation()
+def relate_device(
+    _request: Request,
+    related_device: schema.issues.RelateDeviceResponse = Depends(
+        services.issues.relate_device_from_schema
+    ),
+):
+    """Relate a device to an issue"""
+    return schema.issues.RelateDeviceResponse(response=related_device.response)

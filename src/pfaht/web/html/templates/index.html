@@ -8,9 +8,15 @@
     <a href="/#">{{ app_name }}</a>
   </h1>
   <div class="flex items-center space-x-4">
+    {% if request.state.user %}
+    <p class="hidden sm:block">Hello, {{ request.state.user.name }}</p>
+    <img src="{{ request.state.user.picture }}" alt="Profile"
+      class="w-10 h-10 rounded-full border-2 border-white">
+    {% else %}
     <p class="hidden sm:block">Hello, User</p>
     <img src="https://via.placeholder.com/40" alt="Profile"
       class="w-10 h-10 rounded-full border-2 border-white">
+    {% endif %}
   </div>
 </div>
 
