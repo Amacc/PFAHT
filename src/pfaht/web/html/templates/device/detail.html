@@ -4,11 +4,11 @@
       justify-between device-header">
     <div class="device-header-info">
       <div class="flex items-center space-x-4">
-        <div>
+        <div class="device-header-profile-icon">
           {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
           {% include 'component/icon.html' %}
         </div>
-        <div>
+        <div class="device-header-title">
           {{ item.device_id }}: {{ item.device_name|title }}
         </div>
       </div>
