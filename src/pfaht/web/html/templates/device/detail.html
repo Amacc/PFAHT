@@ -1,8 +1,8 @@
 <div id="device-card-{{ item.device_id }}" class="bg-purple-200 p-4 rounded device"
   x-data="{ open: false, isEditing: false }">
-  <div
-    class="max-w-full border-b-2 border-b-purple-500 flex items-center justify-between">
-    <div> <!-- Device type is going to determine profile url -->
+  <div class="max-w-full border-b-2 border-b-purple-500 flex items-center
+      justify-between device-header">
+    <div class="device-header-info">
       <div class="flex items-center space-x-4">
         <div>
           {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
@@ -14,7 +14,7 @@
       </div>
     </div>
     <!-- Button Dropdown -->
-    <div class="relative">
+    <div class="relative device-header-dropdown">
       <!-- Popover Trigger (Icon Container) -->
       <div @click="open = !open"
         class="w-6 h-6 rounded-t flex items-center justify-center cursor-pointer bg-purple-300 hover:bg-purple-400">
