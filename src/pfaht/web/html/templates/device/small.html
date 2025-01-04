@@ -1,0 +1,12 @@
+<div id="device-small-{{ item.device_id }}"
+  class="bg-purple-200 p-2 rounded basis-64 device">
+  <div class="flex items-center space-x-4">
+    <div title="{{ item.device_id }}: {{ item.device_name|title }}">
+      {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
+      {% include 'component/icon.html' %}
+    </div>
+    <div>
+      {{ item.device_id }}: {{ item.device_name|title }}
+    </div>
+  </div>
+</div>

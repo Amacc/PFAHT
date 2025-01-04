@@ -1,4 +1,4 @@
-<div id="device-card-{{ item.issue_id }}" class="bg-purple-200 p-4 rounded"
+<div id="device-card-{{ item.issue_id }}" class="bg-purple-200 p-4 rounded issue"
   x-data="{ open: false, isEditing: {{ item._is_editing|default(False)|tojson }} }">
   <div
     class="max-w-full border-b-2 border-b-purple-500 flex items-center justify-between">
@@ -107,8 +107,11 @@
           {% include 'component/icon.html' %}
         </button>
       </div>
-      <div class="w-full h-full">
-        <img src="https://dummyimage.com/1000x60" alt="Issues">
+      <div class="w-full h-full -space-x-4 flex"
+        hx-get="/issues/{{ item.issue_id }}/devices?format=icon"
+        hx-trigger="intersect once" x-transition hx-select=".response .device">
+        <img src="https://dummyimage.com/1000x60&text=Loading Related Devices..."
+          alt="Related Devices">
       </div>
     </div>
   </div>

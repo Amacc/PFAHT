@@ -32,6 +32,7 @@ def app_index(_request: Request):
 if __name__ == "__main__":
     # Launch the FastAPI app using Uvicorn
     import uvicorn
+
     uvicorn.run(
         "pfaht.web.app:app" if config.FAST_API_RELOAD else app,
         host=config.FAST_API_HOST,

@@ -1,0 +1,16 @@
+<div id="device-icon-{{ item.device_id }}" class="flex rounded device">
+  <div class="flex items-center space-x-2 relative group">
+    <span title="{{ item.device_id }}: {{ item.device_name|title }}"
+      class="rounded-full bg-purple-900 group-hover:z-50 flex items-center justify-center">
+      {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
+      {% include 'component/icon-lg.html' %}
+      <span class="group-hover:visible group-hover:z-51 invisible absolute">
+        {{ item.device_id }}: {{ item.device_name|title }}<br>
+        <a href="/devices/{{ item.device_id }}" target="_blank">
+          {% set icon='heroicons/solid/arrow-top-right-on-square.svg' %}
+          {% include 'component/icon.html' %}
+        </a>
+      </span>
+    </span>
+  </div>
+</div>

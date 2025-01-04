@@ -14,7 +14,7 @@
 </h2>
 
 <div class="space-y-4 list-response response">
-  {%- for item in item.response %}
+  {% for item in item.response %}
   {%- if item._html_template %}
   {% include item._html_template %}
   {%- else %}
