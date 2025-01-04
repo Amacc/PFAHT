@@ -1,5 +1,5 @@
 <div id="device-card-{{ item.device_id }}" class="bg-purple-200 p-4 rounded device"
-  x-data="{ open: false, isEditing: false }">
+  x-data="{ open: false, isEditing: false, selected: 'details' }">
   <div class="max-w-full border-b-2 border-b-purple-500 flex items-center
       justify-between device-header">
     <div class="device-header-info">
@@ -41,19 +41,31 @@
       </div>
     </div>
   </div>
-  <!-- Device Detail Form -->
-  {% include 'device/detail/form.html' %}
-  <!-- Status: {{ item.device_status }}
-  Location: {{ item.device_location }}
-  Description: {{ item.device_description }} -->
-  <!-- Simulated Related issues load -->
-  <div class="flex flex-col">
-    <label for="device_location_{{ item.device_id }}" class="text-sm font-medium">
-      Opened Issues
-    </label>
-    <div class="w-full h-full">
-      <img src="https://dummyimage.com/1000x60&text=Loading Device Issues..."
-        alt="Issues">
+  <!-- section selector -->
+  <div class="flex flex-row space-x-4 w-full bg-purple-500 content-start 
+      border-b-purple-500 border-b-2 text-white group px-2 ">
+    <button @click="selected = 'details'" class="rounded px-1"
+      :class="{ 'bg-purple-700': selected === 'details' }">
+      Details
+    </button>
+    <button @click="selected = 'issues'" class="rounded px-1"
+      :class="{ 'bg-purple-700': selected === 'issues' }">
+      Issues
+    </button>
+  </div>
+  <div x-show="selected === 'details'">
+    {% include 'device/detail/form.html' %}
+  </div>
+  <div x-show="selected === 'issues'">
+    <!-- Simulated Related issues load -->
+    <div class="flex flex-col">
+      <label for="device_location_{{ item.device_id }}" class="text-sm font-medium">
+        Opened Issues
+      </label>
+      <div class="w-full h-full">
+        <img src="https://dummyimage.com/1000x60&text=Loading Device Issues..."
+          alt="Issues">
+      </div>
     </div>
   </div>
 </div>
