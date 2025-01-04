@@ -41,56 +41,19 @@
       </div>
     </div>
   </div>
-  <!-- Form for Device -->
-  <form hx-put="/devices/{{ item.device_id }}"
-    hx-target="#device-card-{{ item.device_id }}" class="mt-4">
-    <div class="flex flex-col space-y-2">
-      <label for="device_name_{{ item.device_id }}" class="text-sm font-medium">Device
-        Name</label>
-      <input type="text" id="device_name_{{ item.device_id }}" name="device_name"
-        value="{{ item.device_name }}" :disabled="!isEditing"
-        class="p-2 border border-gray-300 rounded">
-
-      <!-- Status will be implemented later as a badge callback -->
-      <!-- <label for="device_status_{{ item.device_id }}" class="text-sm font-medium">Device Status</label>
-      <input type="text" id="device_status_{{ item.device_id }}" name="device_status"
-        value="{{ item.device_status }}" class="p-2 border border-gray-300 rounded" :disabled="!isEditing"> -->
-
-      <label for="device_type_{{ item.device_id }}" class="text-sm font-medium">Device
-        Type</label>
-      <input type="text" id="device_type_{{ item.device_id }}" name="device_type"
-        value="{{ item.device_type }}" class="p-2 border border-gray-300 rounded"
-        :disabled="!isEditing">
-
-      <label for="device_location_{{ item.device_id }}"
-        class="text-sm font-medium">Device Location</label>
-      <input type="text" id="device_location_{{ item.device_id }}"
-        name="device_location" value="{{ item.device_location }}"
-        class="p-2 border border-gray-300 rounded" :disabled="!isEditing">
-
-      <!-- <label for="device_description_{{ item.device_id }}" class="text-sm font-medium">Device Description</label>
-      <textarea id="device_description_{{ item.device_id }}" name="device_description"
-        class="p-2 border border-gray-300 rounded" :disabled="!isEditing">{{ item.device_description }}</textarea> -->
-
-      <button x-show="isEditing" x-transition type="submit"
-        class="mt-2 p-2 bg-purple-500 text-white rounded hover:bg-purple-600">
-        Update Device
-      </button>
-      <button x-show="isEditing" x-transition @click="isEditing = !isEditing"
-        type="button"
-        class="mt-2 p-2 bg-purple-700 text-white rounded hover:bg-purple-800">
-        Cancel
-      </button>
-    </div>
-  </form>
+  <!-- Device Detail Form -->
+  {% include 'device/detail/form.html' %}
   <!-- Status: {{ item.device_status }}
   Location: {{ item.device_location }}
   Description: {{ item.device_description }} -->
+  <!-- Simulated Related issues load -->
   <div class="flex flex-col">
-    <label for="device_location_{{ item.device_id }}"
-      class="text-sm font-medium">Issues</label>
+    <label for="device_location_{{ item.device_id }}" class="text-sm font-medium">
+      Opened Issues
+    </label>
     <div class="w-full h-full">
-      <img src="https://dummyimage.com/100x40" alt="Issues">
+      <img src="https://dummyimage.com/1000x60&text=Loading Device Issues..."
+        alt="Issues">
     </div>
   </div>
 </div>
