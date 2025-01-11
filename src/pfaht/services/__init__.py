@@ -3,4 +3,4 @@ Service Module
 ==============
 """
 
-from . import devices, issues, tasks, users
+from . import devices, google, issues, tasks, users

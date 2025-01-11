@@ -94,6 +94,22 @@ async def list_issues(
     )
 
 
+async def list_issues_for_device(
+    db: db.Database = Depends(db.get_database),
+    device_id: int = None,
+) -> schema.issues.IssueListServiceResponse:
+    """List Issues For Device"""
+    query = (
+        "SELECT * FROM issues "
+        "JOIN related_devices ON issues.issue_id = related_devices.issue_id "
+        "WHERE related_devices.device_id = :device_id"
+    )
+    items = await db.fetch_all(query=query, values={"device_id": device_id})
+    return schema.issues.IssueListServiceResponse(
+        data=[schema.issues.Issue.model_validate(dict(item)) for item in items], db=db
+    )
+
+
 async def get_issue(
     issue_id: int,
     db: db.Database = Depends(db.get_database),

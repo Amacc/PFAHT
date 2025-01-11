@@ -1,0 +1,10 @@
+<div class="flex items-center space-x-4">
+  {% if request.state.user %}
+  <p class="hidden sm:block">Hello, {{ request.state.user.name }}</p>
+  <img src="{{ request.state.user.picture }}" alt="Profile"
+    class="w-10 h-10 rounded-full border-2 border-white">
+  {% else %}
+  <p class="hidden sm:block">Hello, User</p>
+  <a href="/auth/login" class="bg-green-600 p-1 rounded">Login</a>
+  {% endif %}
+</div>

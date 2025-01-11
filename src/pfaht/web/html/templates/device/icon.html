@@ -2,8 +2,10 @@
   <div class="flex items-center space-x-2 relative group">
     <span title="{{ item.device_id }}: {{ item.device_name|title }}"
       class="rounded-full bg-purple-900 group-hover:z-50 flex items-center justify-center">
-      {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
-      {% include 'component/icon-lg.html' %}
+      <span class="p-2">
+        {% set icon="/svgrepo/{0}.svg".format(item.device_type) %}
+        {% include 'component/icon-lg.html' %}
+      </span>
       <span class="group-hover:visible group-hover:z-51 invisible absolute text-white">
         {{ item.device_id }}: {{ item.device_name|title }}<br>
         <a href="/devices/{{ item.device_id }}" target="_blank">

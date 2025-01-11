@@ -34,6 +34,10 @@ class MissingDeviceResponse(api.ApiResponse[None]):
 
 
 class DeviceListResponse(api.ApiResponse[list[Device]]):
+    _header_links: list[str] = {
+        "NewForm": index.Link(url="/devices/new", title="New Device"),
+    }
+
     @property
     def title(self):
         return "Device List"

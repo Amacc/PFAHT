@@ -61,3 +61,13 @@ def create_device(
     Create a new device
     """
     return schema.devices.DeviceCreatedResponse(response=created_device)
+
+
+@router.get("/{device_id}/issues", response_model=schema.issues.IssueListResponse)
+def list_assigned_issues(
+    issue_list: schema.issues.IssueListServiceResponse = Depends(
+        services.issues.list_issues_for_device
+    ),
+):
+    """List all issues assigned to a device"""
+    return schema.issues.IssueListResponse(response=issue_list.data)
